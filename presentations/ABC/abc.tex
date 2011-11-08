@@ -1,10 +1,10 @@
 
-%\documentclass{beamer}
-\documentclass[handout,xcolor=pdftex,dvipsnames,table]{beamer} % for handouts
+\documentclass{beamer}
+%\documentclass[handout,xcolor=pdftex,dvipsnames,table]{beamer} % for handouts
 
 
 \usecolortheme[RGB={0,0,144}]{structure}
-\usetheme{AnnArbor}
+\usetheme{AnnArbor}\usecolortheme{beaver}
 
 \usepackage{verbatim,xmpmulti,color,multicol,multirow, mathtools}
 \setlength{\unitlength}{\textwidth}  % measure in textwidths
@@ -22,8 +22,8 @@
 \title[Approximate Bayesian Computation]{Bayesian inference in stochastic chemical kinetic models\\
 {\small(Approximate Bayesian Computation)}}
 \author{Jarad Niemi}
-\institute[UCSB]{University of California, Santa Barbara}
-\date{February 14, 2011}
+\institute[ISU]{Iowa State University}
+\date{Nov 8, 2011}
 
 \begin{document}
 
@@ -49,7 +49,7 @@
 	A \alert{random variable} is a variable whose value is not known, but whose probability distribution is known. \pause
 	\end{definition}
 	\begin{definition}
-	A \alert{probability distribution} describes the range and relative probabilities of a random variable. \pause 
+	A \alert{probability distribution} describes the range and relative probabilities of a realization of a random variable. \pause 
 	\begin{itemize}
 	\item A \alert{probability mass function} describes the probability of each value of a discrete random variable. \pause
 	\item A \alert{probability density function} describes the probability for each range of a continuous random variable. 
@@ -75,7 +75,7 @@
 	\vspace{0.1in} \pause
 	
 	\item Pseudo-random number generators provide pseudo-random uniform values in the interval (0,1). \pause
-	\[ p(u) =1, \quad u\in(0,1) \]
+	\[ p(u) =\mathrm{I}(0<u<1) \]
 	
 	\vspace{0.1in} \pause
 	
@@ -90,7 +90,7 @@
 	\item Input: 
 		\begin{itemize}
 		\item<2-> Data: $y$, 
-		\item<3-> Model: $p(y|\theta)$, likelihood: $L(\theta)=p(y|\theta)$
+		\item<3-> Model: $p(y|\theta)$, likelihood: $L(\theta)\propto p(y|\theta)$
 		\item<5-> Prior: $p(\theta)$
 		\end{itemize}
 	\item<4-> Maximum-likelihood estimation
@@ -117,7 +117,7 @@
 	\item The propensities are given by $a_j(x) = \theta_j h_j(x)$ 
 	\item where $h_j(x)$ is a known function of the system state. 
 	\item If reaction $j$ occurs, the state is updated by the stoichiometry $\nu_j$ with 
-	\item elements $\nu_{ij}\in\{-1,0,1\}$. 
+	\item elements $\nu_{ij}\in\{-2,-1,0,1,2\}$, i.e. reaction orders 0,1, and 2.
 	\end{itemize}
 	
 	\begin{columns}
@@ -298,7 +298,9 @@
 \frame{\frametitle{Rejection sampling}
 	\setkeys{Gin}{width=\textwidth}
 	Our objective is samples from the posterior 
-	\[ p(\theta|y) \pause =\int p(\theta,X|y) dX \pause \propto \int p(y|X)p(X|\theta)p(\theta) dX \]
+	\[ \begin{array}{rl} p(\theta|y) \pause &=\int p(\theta,X|y) dX \pause \propto \int p(y|X)p(X|\theta)p(\theta) dX \pause \\
+	&= \int \prod_{t=1}^n \mathrm{I}(y_t=X_t)  p(X|\theta)p(\theta) dX
+	\end{array} \]
 	\begin{columns}
 	\begin{column}{0.6\textwidth}
 	\pause A rejection sampling procedure is \pause
@@ -323,7 +325,7 @@
 \frame{\frametitle{Gibbs sampling}
 	\setkeys{Gin}{width=\textwidth}
 	Our objective is samples from the posterior 
-	\[ p(\theta|y) \pause =\int p(\theta,X|y) dX \pause \propto \int p(y|X)p(X|\theta)p(\theta) dX \]
+	\[ p(\theta|y) =\int p(\theta,X|y) dX \propto \int p(y|X)p(X|\theta)p(\theta) dX \]
 	\begin{columns}
 	\begin{column}{0.6\textwidth}
 	\pause A Gibbs sampling procedure is \pause
@@ -566,7 +568,7 @@ $S$ & 301 & 219 & 180 & 150 & 108 & 86 & 61 & 52 & 35 & 29 & 22 \\
 Resources
 \begin{itemize}
 \item Niemi, Jarad and Wheeler, Matt. Efficient Bayesian inference in stochastic chemical kinetic models using graphical processing units. \url{http://arxiv.org/abs/1101.4242}
-\item This presentation \url{http://www.pstat.ucsb.edu/faculty/niemi/presentations/}
+\item This presentation on BlackBoard Learn.
 \end{itemize}
 }
 
