@@ -14,7 +14,7 @@ dist <- runif(N,18,60)
 kicker.by.name <- as.factor(rep(LETTERS[1:4], each=25))
 kicker <- as.numeric(kicker.by.name)
 X <- cbind(1,dist)
-y <- rbinom(N,1,1/(1+exp(-rowSums(X*b[kicker,])))
+y <- rbinom(N,1,1/(1+exp(-rowSums(X*b[kicker,]))))
 
 
 N <- length(y)               # number of kicks
