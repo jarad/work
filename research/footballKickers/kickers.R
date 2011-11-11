@@ -13,12 +13,14 @@ N <- n.per.kicker*K
 dist <- runif(N,18,60)
 kicker.by.name <- as.factor(rep(LETTERS[1:4], each=25))
 kicker <- as.numeric(kicker.by.name)
-y <- rbinom(N,1,1/(1+exp(-b[kicker,1]-b[kicker,2]*dist)))
+X <- cbind(1,dist)
+y <- rbinom(N,1,1/(1+exp(-rowSums(X*b[kicker,])))
+
 
 N <- length(y)               # number of kicks
 K <- length(unique(kicker))  # number of kickers
 
-data <- list(N=N,K=K,y=y,kicker=kicker,dist=dist,p=p,
+data <- list(N=N,K=K,y=y,kicker=kicker,X=X,p=p,
              mu.prec=1e-6,R=diag(p))
 
 ### Create Initial Values

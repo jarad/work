@@ -3,7 +3,8 @@ kickermodel {
     y[i] ~ dbin(pi[i],1)                          # each kick gets its own row
     # kicker specific random intercept and slope
     # logistic link
-    logit(pi[i]) <- b[kicker[i],1]+b[kicker[i],2]*dist[i]
+    #logit(pi[i]) <- b[kicker[i],1]+b[kicker[i],2]*dist[i]
+    logit(pi[i]) <- inprod(b[kicker[i],],X[i,])
   }
 
   for (k in 1:K) {
@@ -26,6 +27,7 @@ kickermodel {
   df <- p+1
   Sigma.raw[1:p,1:p] <- inverse(Tau.raw[1:p,1:p])
 
+  # Calculate standard deviations and correlations
   for (j in 1:p) {
     sigma[j] <- xi[j]*sqrt(Sigma.raw[j,j])
     for (k in 1:j) {
