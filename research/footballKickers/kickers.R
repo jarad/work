@@ -25,11 +25,11 @@ data <- list(N=N,K=K,y=y,kicker=kicker,dist=dist,p=p,
 
 inits <- list(list(b.raw=matrix(0,K,p), mu.raw=rep(0,p), 
                    Tau.raw=diag(p), xi=rep(1,p)))
-parameters <- c("b","mu","sigma")
+parameters <- c("b","mu","sigma","corr")
 
 ## Run the simulation 
 
-nburn=1e2
+nburn=1e4
 kicker.sim <- bugs(data,inits,parameters,"kickermodel.txt",
                    n.chains=1,n.burnin=nburn,n.thin=1,n.iter=nburn*2)
 kicker.coda <- as.mcmc.list(kicker.sim)

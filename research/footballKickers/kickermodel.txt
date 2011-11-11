@@ -28,7 +28,9 @@ kickermodel {
 
   for (j in 1:p) {
     sigma[j] <- xi[j]*sqrt(Sigma.raw[j,j])
-    # calculate correlations here
+    for (k in 1:j) {
+      corr[j,k] <- xi[j]*xi[k]*Sigma.raw[j,k]/(sigma[j]*sigma[k])
+    }
   }
 }
 
