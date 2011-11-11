@@ -15,19 +15,16 @@ kicker.by.name <- as.factor(rep(LETTERS[1:4], each=25))
 kicker <- as.numeric(kicker.by.name)
 y <- rbinom(N,1,1/(1+exp(-b[kicker,1]-b[kicker,2]*dist)))
 
-data <- list(N=length(y),              # number of kicks
-             K=length(unique(kicker)), # number of kickers
-             y=y,                      # 1=kick good, 0=kick missed
-             kicker=kicker,            # kicker ID (numeric), must not have gaps
-             dist=dist,                # kick distance
-             p=p,                      # number of covariates including intercept
-             mu.prec=1e-6,             # overall mean precision
-             R=diag(p))                # Wishart location
+N <- length(y)               # number of kicks
+K <- length(unique(kicker))  # number of kickers
+
+data <- list(N=N,K=K,y=y,kicker=kicker,dist=dist,p=p,
+             mu.prec=1e-6,R=diag(p))
 
 ### Create Initial Values
 
-inits <- list(list(b=b*0, mu=rep(0,2), Tau=diag(2)))
-parameters <- c("b","mu","Tau")
+inits <- list(list(b=matrix(0,K,p), mu.raw=rep(0,p), Tau.raw=diag(p)), xi=rep(1,p))
+parameters <- c("b","mu","sigma")
 
 ## Run the simulation 
 

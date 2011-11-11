@@ -7,12 +7,29 @@ kickermodel {
   }
 
   for (k in 1:K) {
-    b[k,1:p] ~ dmnorm(mu[1:p],Tau[1:p,1:p])      # kicker effects drawn from a bivariate normal
+    for (j in 1:p) {
+      # kicker effects, xi for scaled invWishart
+      b[k,j] <- b.raw[k,j]*xi[j]                   
+    }
+    b.raw[k,1:p] ~ dmnorm(mu.raw[1:p],Tau.raw[1:p,1:p])    
   }
 
-  for (j in 1:p) { mu[j] ~ dnorm(0.0,mu.prec) }   # parameterized by precision (=1/variance)
+  # Prior for mean
+  for (j in 1:p) { 
+    mu[j] <- mu.raw[j]*xi[j]
+    mu.raw[j] ~ dnorm(0.0,mu.prec) 
+    xi[j] ~ dunif(0,100)           # No idea if the endpoint matters
+  }   
 
-    
+  # Prior for covariance matrix
+  Tau.raw[1:p,1:p] ~ dwish(R[1:p,1:p], df)
+  df <- p+1
+  Sigma.raw[1:p,1:p] <- inverse(Tau.raw[1:p,1:p])
+
+  for (j in 1:p) {
+    sigma[j] <- xi[j]*sqrt(Sigma.raw[j,j])
+    # calculate correlations here
+  }
 }
 
 
