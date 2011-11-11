@@ -23,7 +23,8 @@ data <- list(N=N,K=K,y=y,kicker=kicker,dist=dist,p=p,
 
 ### Create Initial Values
 
-inits <- list(list(b=matrix(0,K,p), mu.raw=rep(0,p), Tau.raw=diag(p)), xi=rep(1,p))
+inits <- list(list(b.raw=matrix(0,K,p), mu.raw=rep(0,p), 
+                   Tau.raw=diag(p), xi=rep(1,p)))
 parameters <- c("b","mu","sigma")
 
 ## Run the simulation 
