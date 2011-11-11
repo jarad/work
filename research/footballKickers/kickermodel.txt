@@ -1,18 +1,18 @@
 kickermodel {
   for (i in 1:N) {
-    y[i] ~ dbin(p[i],1)                          # each kick gets its own row
+    y[i] ~ dbin(pi[i],1)                          # each kick gets its own row
     # kicker specific random intercept and slope
     # logistic link
-    logit(p[i]) <- b[kicker[i],1]+b[kicker[i],2]*dist[i]
+    logit(pi[i]) <- b[kicker[i],1]+b[kicker[i],2]*dist[i]
   }
 
   for (k in 1:K) {
-    b[k,1:2] ~ dmnorm(mu[1:2],Tau[1:2,1:2])      # kicker effects drawn from a bivariate normal
+    b[k,1:p] ~ dmnorm(mu[1:p],Tau[1:p,1:p])      # kicker effects drawn from a bivariate normal
   }
 
-  for (j in 1:2) { mu[j] ~ dnorm(0.0,1.0E-6) }   # parameterized by precision (=1/variance)
-  Tau[1:2,1:2] ~ dwish(R[1:2,1:2], 3)            # we should definitely look at this prior
-  Sigma[1:2,1:2] <- inverse(Tau[1:2,1:2])        # covariance matrix
+  for (j in 1:p) { mu[j] ~ dnorm(0.0,1.0E-6) }   # parameterized by precision (=1/variance)
+  Tau[1:p,1:p] ~ dwish(R[1:p,1:p], 3)            # we should definitely look at this prior
+  
 }
 
 
