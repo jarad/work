@@ -10,9 +10,9 @@ kickermodel {
     b[k,1:p] ~ dmnorm(mu[1:p],Tau[1:p,1:p])      # kicker effects drawn from a bivariate normal
   }
 
-  for (j in 1:p) { mu[j] ~ dnorm(0.0,1.0E-6) }   # parameterized by precision (=1/variance)
-  Tau[1:p,1:p] ~ dwish(R[1:p,1:p], 3)            # we should definitely look at this prior
-  
+  for (j in 1:p) { mu[j] ~ dnorm(0.0,mu.prec) }   # parameterized by precision (=1/variance)
+
+    
 }
 
 
